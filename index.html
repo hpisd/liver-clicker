@@ -14,10 +14,29 @@
         .logo { font-size: 26px; font-weight: 900; letter-spacing: 8px; color: #fff; text-shadow: 0 0 10px var(--neon-red); }
         .stat-val { font-size: 34px; font-weight: bold; color: #eee; font-family: 'Courier New'; }
 
-        #clicker-area { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
-        .bio-img-wrapper { width: 320px; height: 320px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.1s; background: radial-gradient(circle, rgba(255,0,60,0.1) 0%, transparent 70%); border-radius: 50%; }
+        /* PREVENTS TEXT/IMAGE SELECTION */
+        #clicker-area { 
+            flex-grow: 1; display: flex; flex-direction: column; align-items: center; 
+            justify-content: center; position: relative; 
+            user-select: none; -webkit-user-select: none; 
+        }
+
+        .bio-img-wrapper { 
+            width: 320px; height: 320px; cursor: pointer; display: flex; 
+            align-items: center; justify-content: center; transition: 0.1s; 
+            background: radial-gradient(circle, rgba(255,0,60,0.1) 0%, transparent 70%); 
+            border-radius: 50%; 
+        }
         .bio-img-wrapper:active { transform: scale(0.95); }
-        .bio-img-wrapper img { max-width: 90%; max-height: 90%; filter: drop-shadow(0 0 20px var(--neon-red)); pointer-events: none; }
+
+        /* PREVENTS DRAGGING OR HIGHLIGHTING THE IMAGE */
+        .bio-img-wrapper img { 
+            max-width: 90%; max-height: 90%; 
+            filter: drop-shadow(0 0 20px var(--neon-red)); 
+            pointer-events: none; 
+            user-drag: none; 
+            -webkit-user-drag: none; 
+        }
 
         #market-zone { flex-grow: 1; display: flex; flex-direction: column; background: #080808; }
         .main-tabs { display: flex; background: #000; border-bottom: 1px solid var(--border); }
@@ -95,13 +114,13 @@
 <script>
     const MAX_VAL = 67000000000000;
     
-    // Updated with Capital 'I' to match your GitHub file names
+    // IMAGE PATHS UPDATED TO PREVENT LOCAL LOADING ERRORS
     const ASSETS = [
-        { id: 'bone', name: "Human Bone", base: 1200, img: "Image_68cd5b.png", unlockCost: 0, unlocked: true },
-        { id: 'intestines', name: "Intestines", base: 15000, img: "Image_68cd75.png", unlockCost: 500000, unlocked: false },
-        { id: 'liver', name: "Human Liver", base: 550000, img: "Image_68caaf.png", unlockCost: 50000000, unlocked: false },
-        { id: 'heart', name: "Human Heart", base: 10000000, img: "Image_68cd72.png", unlockCost: 10000000000, unlocked: false },
-        { id: 'brain', name: "Human Brain", base: 500000000, img: "Image_68cd53.png", unlockCost: 5000000000000, unlocked: false }
+        { id: 'bone', name: "Human Bone", base: 1200, img: "./Image_68cd5b.png", unlockCost: 0, unlocked: true },
+        { id: 'intestines', name: "Intestines", base: 15000, img: "./Image_68cd75.png", unlockCost: 500000, unlocked: false },
+        { id: 'liver', name: "Human Liver", base: 550000, img: "./Image_68caaf.png", unlockCost: 50000000, unlocked: false },
+        { id: 'heart', name: "Human Heart", base: 10000000, img: "./Image_68cd72.png", unlockCost: 10000000000, unlocked: false },
+        { id: 'brain', name: "Human Brain", base: 500000000, img: "./Image_68cd53.png", unlockCost: 5000000000000, unlocked: false }
     ];
 
     const infraTiers = [
@@ -268,7 +287,7 @@
         document.body.appendChild(d); setTimeout(() => d.remove(), 600);
     }
 
-    // Main Logic Loop
+    // MAIN GAME ENGINE LOOP
     setInterval(() => {
         let gps = 0; infraTiers.forEach(t => gps += (t.gps * (state.infraCounts[t.id] || 0)));
         state.cash += gps / 10;
@@ -278,10 +297,10 @@
         renderGrids(); 
     }, 100);
 
-    // Autosave Every 5 Seconds
+    // AUTOSAVE TRIGGERED EVERY 5 SECONDS
     setInterval(saveGame, 5000);
 
-    // Initial Start
+    // INITIALIZATION
     loadGame();
     updateAssetUI();
 </script>
